@@ -27,7 +27,7 @@ class ColumnTest {
     @MethodSource
     @DisplayName("기둥의 다음 기둥 생성 테스트")
     void next(final Column column, final FootStepCreateStrategy footStepCreateStrategy, final Column expected) {
-        assertThat(column.next(footStepCreateStrategy)).isEqualTo(expected);
+        assertThat(column.createNext(footStepCreateStrategy)).isEqualTo(expected);
     }
 
     private static Stream<Arguments> next() {
@@ -45,7 +45,7 @@ class ColumnTest {
     @MethodSource
     @DisplayName("마지막 기둥 생성 테스트")
     void last(final Column column, final Column expected) {
-        assertThat(column.last()).isEqualTo(expected);
+        assertThat(column.createLast()).isEqualTo(expected);
     }
 
     private static Stream<Arguments> last() {
@@ -53,6 +53,25 @@ class ColumnTest {
                 Arguments.of(COLUMN_WITH_LEFT_FOOTSTEP, COLUMN_WITHOUT_FOOTSTEP),
                 Arguments.of(COLUMN_WITH_RIGHT_FOOTSTEP, COLUMN_WITH_LEFT_FOOTSTEP),
                 Arguments.of(COLUMN_WITHOUT_FOOTSTEP, COLUMN_WITHOUT_FOOTSTEP)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("기둥간의 이동 테스트")
+    void takeLadder(final Column column, final int before, final int expected) {
+        assertThat(column.takeLadder(before)).isEqualTo(expected);
+    }
+
+    private static Stream<Arguments> takeLadder() {
+        Column columnWithoutFootStep = Column.init(() -> false);
+        Column columnWithRightFootStep = Column.init(() -> true);
+        Column columnWithLeftFootStep = columnWithRightFootStep.createNext(() -> true);
+
+        return Stream.of(
+                Arguments.of(columnWithoutFootStep, 0, 0),
+                Arguments.of(columnWithRightFootStep, 0, 1),
+                Arguments.of(columnWithLeftFootStep, 1, 0)
         );
     }
 }

@@ -20,12 +20,16 @@ public class Column {
           return new Column(footStepCreateStrategy);
      }
 
-     public Column next(final FootStepCreateStrategy footStepCreateStrategy) {
-          return new Column(footStep.next(footStepCreateStrategy));
+     public Column createNext(final FootStepCreateStrategy footStepCreateStrategy) {
+          return new Column(footStep.createNext(footStepCreateStrategy));
      }
 
-     public Column last() {
-          return new Column(footStep.last());
+     public Column createLast() {
+          return new Column(footStep.createLast());
+     }
+
+     public int takeLadder(final int curPosition) {
+          return footStep.moveThroughFootStep(curPosition);
      }
 
      public boolean toRightFootStep() {

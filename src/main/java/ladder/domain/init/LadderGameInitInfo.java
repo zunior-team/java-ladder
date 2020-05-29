@@ -1,34 +1,28 @@
 package ladder.domain.init;
 
-import java.util.List;
-import java.util.Objects;
+import ladder.util.ObjectUtil;
 
 public class LadderGameInitInfo {
     private final LadderInitInfo ladderInitInfo;
-    private final List<String> names;
+    private final PlayerAndPrizeInitInfo playerAndPrizeInitInfo;
 
-    private LadderGameInitInfo(final List<String> names, final int height) {
-        validate(names);
+    private LadderGameInitInfo(final PlayerAndPrizeInitInfo playerAndPrizeInitInfo, final int height) {
+        ObjectUtil.checkNull(playerAndPrizeInitInfo, "PlayerAndPrizeInitInfo is null");
 
-        this.names = names;
-        this.ladderInitInfo = LadderInitInfo.init(height, names.size());
+        LadderSize ladderSize = LadderSize.init(playerAndPrizeInitInfo.getPlayerCount(), height);
+        this.playerAndPrizeInitInfo = playerAndPrizeInitInfo;
+        this.ladderInitInfo = LadderInitInfo.init(ladderSize);
     }
 
-    private void validate(final List<String> names) {
-        if (Objects.isNull(names)) {
-            throw new IllegalArgumentException("Names are null");
-        }
-    }
-
-    public static LadderGameInitInfo init(final List<String> names, final int height) {
-        return new LadderGameInitInfo(names, height);
+    public static LadderGameInitInfo init(final PlayerAndPrizeInitInfo playerAndPrizeInitInfo, final int height) {
+        return new LadderGameInitInfo(playerAndPrizeInitInfo, height);
     }
 
     public LadderInitInfo getLadderInitInfo() {
         return ladderInitInfo;
     }
 
-    public List<String> getNames() {
-        return names;
+    public PlayerAndPrizeInitInfo getPlayerAndPrizeInitInfo() {
+        return playerAndPrizeInitInfo;
     }
 }

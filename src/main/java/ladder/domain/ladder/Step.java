@@ -2,17 +2,16 @@ package ladder.domain.ladder;
 
 import ladder.domain.init.LadderInitInfo;
 import ladder.domain.ladder.footstep.FootStepCreateStrategy;
+import ladder.util.ObjectUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 // 사다리 한단
 public class Step {
-    public static final int MINIMUM_LADDER_WIDTH = 1;
+    private static final int MINIMUM_LADDER_WIDTH = 1;
 
     private final List<Column> columns;
 
@@ -20,14 +19,14 @@ public class Step {
         validate(ladderInitInfo);
 
         columns = new ArrayList<>(ladderInitInfo.getLadderWidth());
-        createHead(ladderInitInfo);
+        createFirst(ladderInitInfo);
         createMid(ladderInitInfo);
-        createTail(ladderInitInfo);
+        createLast(ladderInitInfo);
     }
 
-    private void createTail(final LadderInitInfo ladderInitInfo) {
+    private void createLast(final LadderInitInfo ladderInitInfo) {
         if (ladderInitInfo.getLadderWidth() > MINIMUM_LADDER_WIDTH) {
-            columns.add(createEndColumn());
+            columns.add(createLastColumn());
         }
     }
 
@@ -41,7 +40,7 @@ public class Step {
                 .forEach(columns::add);
     }
 
-    private void createHead(final LadderInitInfo ladderInitInfo) {
+    private void createFirst(final LadderInitInfo ladderInitInfo) {
         if (ladderInitInfo.getLadderWidth() == MINIMUM_LADDER_WIDTH) {
             columns.add(Column.init(() -> false));
             return;
@@ -51,9 +50,7 @@ public class Step {
     }
 
     private void validate(final LadderInitInfo ladderInitInfo) {
-        if (Objects.isNull(ladderInitInfo)) {
-            throw new IllegalArgumentException("Init info is null");
-        }
+        ObjectUtil.checkNull(ladderInitInfo, "Init info is null");
 
         if (ladderInitInfo.getLadderWidth() < MINIMUM_LADDER_WIDTH) {
             throw new IllegalArgumentException("Ladder width must larger or equal to " + MINIMUM_LADDER_WIDTH);
@@ -64,6 +61,15 @@ public class Step {
         return new Step(ladderInitInfo);
     }
 
+    public int takeLadder(final int curPosition) {
+        return columns.get(curPosition)
+                .takeLadder(curPosition);
+    }
+
+    public int getLadderWidth() {
+        return columns.size();
+    }
+
     public List<Boolean> toFootSteps() {
         return columns.stream()
                 .map(Column::toRightFootStep)
@@ -71,11 +77,11 @@ public class Step {
     }
 
     private Column createNextColumn(final FootStepCreateStrategy footStepCreateStrategy) {
-        return getLastColumn().next(footStepCreateStrategy);
+        return getLastColumn().createNext(footStepCreateStrategy);
     }
 
-    private Column createEndColumn() {
-        return getLastColumn().last();
+    private Column createLastColumn() {
+        return getLastColumn().createLast();
     }
 
     private Column getLastColumn() {

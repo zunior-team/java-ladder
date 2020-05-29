@@ -2,28 +2,26 @@ package ladder.domain.init;
 
 import ladder.domain.ladder.footstep.FootStepCreateStrategy;
 import ladder.domain.ladder.footstep.HalfChanceGenerator;
+import ladder.util.ObjectUtil;
 
 public class LadderInitInfo {
     private final FootStepCreateStrategy footStepCreateStrategy;
-    private final int ladderHeight;
-    private final int ladderWidth;
+    private final LadderSize ladderSize;
 
-    private LadderInitInfo(final int ladderHeight,
-                           final int ladderWidth,
-                           final FootStepCreateStrategy footStepCreateStrategy) {
-        this.ladderHeight = ladderHeight;
-        this.ladderWidth = ladderWidth;
+    private LadderInitInfo(final LadderSize ladderSize, final FootStepCreateStrategy footStepCreateStrategy) {
+        ObjectUtil.checkNull(ladderSize, footStepCreateStrategy);
+
+        this.ladderSize = ladderSize;
         this.footStepCreateStrategy = footStepCreateStrategy;
     }
 
-    public static LadderInitInfo init(final int ladderHeight,
-                                      final int ladderWidth,
+    public static LadderInitInfo init(final LadderSize ladderSize,
                                       final FootStepCreateStrategy footStepCreateStrategy) {
-        return new LadderInitInfo(ladderHeight, ladderWidth, footStepCreateStrategy);
+        return new LadderInitInfo(ladderSize, footStepCreateStrategy);
     }
 
-    public static LadderInitInfo init(final int ladderHeight, final int ladderWidth) {
-        return init(ladderHeight, ladderWidth, new HalfChanceGenerator());
+    public static LadderInitInfo init(final LadderSize ladderSize) {
+        return init(ladderSize, new HalfChanceGenerator());
     }
 
     public FootStepCreateStrategy getFootStepCreateStrategy() {
@@ -31,10 +29,10 @@ public class LadderInitInfo {
     }
 
     public int getLadderHeight() {
-        return ladderHeight;
+        return ladderSize.getHeight();
     }
 
     public int getLadderWidth() {
-        return ladderWidth;
+        return ladderSize.getWidth();
     }
 }

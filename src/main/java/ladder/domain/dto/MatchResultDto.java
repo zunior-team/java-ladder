@@ -1,39 +1,33 @@
 package ladder.domain.dto;
 
-import java.util.Arrays;
+import ladder.util.ObjectUtil;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 public class MatchResultDto {
-    private final List<String> players;
-    private final List<StepDto> steps;
+    private final Map<String, String> playerAndPrize;
 
-    private MatchResultDto(final List<String> playersName, final List<StepDto> steps) {
-        validate(playersName, steps);
+    private MatchResultDto(final Map<String, String> playerAndPrize) {
+        ObjectUtil.checkNull(playerAndPrize);
 
-        this.players = playersName;
-        this.steps = steps;
+        this.playerAndPrize = playerAndPrize;
     }
 
-    @SafeVarargs
-    private final <T> void validate(T... parameters) {
-        Arrays.stream(parameters)
-                .filter(Objects::isNull)
-                .findAny()
-                .ifPresent(parameter -> {
-                    throw new IllegalArgumentException("Some parameter is null");
-                });
+    public static MatchResultDto of(final Map<String, String> playerAndPrize) {
+        return new MatchResultDto(playerAndPrize);
     }
 
-    public static MatchResultDto of(final List<String> playersName, final List<StepDto> steps) {
-        return new MatchResultDto(playersName, steps);
+    public String match(final String playerName) {
+        if (!playerAndPrize.containsKey(playerName)) {
+            throw new IllegalArgumentException("Player is not exist");
+        }
+
+        return playerAndPrize.get(playerName);
     }
 
     public List<String> getPlayers() {
-        return players;
-    }
-
-    public List<StepDto> getSteps() {
-        return steps;
+        return new ArrayList<>(playerAndPrize.keySet());
     }
 }
