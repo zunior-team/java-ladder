@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.stream.Stream;
 
 import static ladder.util.Static.LADDER_INIT_INFO_WITH_TRUE_STRATEGY;
+import static ladder.util.Static.TRUE_RETURN_INIT_STRATEGY;
 import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("사다리 객체 테스트")
@@ -59,7 +60,9 @@ class LadderTest {
     }
 
     private static Stream<Arguments> takeLadders() {
-        Ladder ladder = Ladder.init(LadderInitInfo.init(LadderSize.init(5, 3), () -> true));
+        Ladder ladder = Ladder.init(
+                LadderInitInfo.init(LadderSize.init(5, 3), TRUE_RETURN_INIT_STRATEGY)
+        );
 
         return Stream.of(
                 Arguments.of(ladder, 0, 1),

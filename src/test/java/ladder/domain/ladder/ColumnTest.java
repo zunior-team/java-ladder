@@ -1,6 +1,6 @@
 package ladder.domain.ladder;
 
-import ladder.domain.ladder.footstep.FootStepCreateStrategy;
+import ladder.domain.ladder.strategy.footstep.FootStepCreateStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

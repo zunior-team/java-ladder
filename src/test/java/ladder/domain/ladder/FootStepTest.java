@@ -2,7 +2,7 @@ package ladder.domain.ladder;
 
 import ladder.domain.init.LadderInitInfo;
 import ladder.domain.init.LadderSize;
-import ladder.domain.ladder.footstep.FootStepCreateStrategy;
+import ladder.domain.ladder.strategy.footstep.FootStepCreateStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,8 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static ladder.util.Static.FALSE_RETURN_STRATEGY;
-import static ladder.util.Static.TRUE_RETURN_STRATEGY;
+import static ladder.util.Static.*;
 import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("발판 테스트")
@@ -108,8 +107,10 @@ class FootStepTest {
 
     private static Stream<Arguments> toFootSteps() {
         return Stream.of(
-                Arguments.of(LadderInitInfo.init(LadderSize.init(5, 1), () -> true), Arrays.asList(true, false, true, false, false)),
-                Arguments.of(LadderInitInfo.init(LadderSize.init(5, 1), () -> false), Arrays.asList(false, false, false, false, false))
+                Arguments.of(LadderInitInfo.init(LadderSize.init(5, 1), TRUE_RETURN_INIT_STRATEGY),
+                        Arrays.asList(true, false, true, false, false)),
+                Arguments.of(LadderInitInfo.init(LadderSize.init(5, 1), FALSE_RETURN_INIT_STRATEGY),
+                        Arrays.asList(false, false, false, false, false))
         );
     }
 

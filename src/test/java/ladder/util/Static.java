@@ -3,7 +3,8 @@ package ladder.util;
 import ladder.domain.init.LadderInitInfo;
 import ladder.domain.init.LadderSize;
 import ladder.domain.ladder.Column;
-import ladder.domain.ladder.footstep.FootStepCreateStrategy;
+import ladder.domain.ladder.strategy.LadderInitStrategies;
+import ladder.domain.ladder.strategy.footstep.FootStepCreateStrategy;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,8 +21,33 @@ public class Static {
     public static final Column COLUMN_WITH_LEFT_FOOTSTEP = COLUMN_WITH_RIGHT_FOOTSTEP.createNext(TRUE_RETURN_STRATEGY);
     public static final Column COLUMN_WITHOUT_FOOTSTEP = Column.init(FALSE_RETURN_STRATEGY);
 
+    public static final LadderInitStrategies TRUE_RETURN_INIT_STRATEGY = new LadderInitStrategies() {
+        @Override
+        public int decideHeight() {
+            return 1;
+        }
+
+        @Override
+        public boolean isGenerable() {
+            return true;
+        }
+    };
+
+    public static final LadderInitStrategies FALSE_RETURN_INIT_STRATEGY = new LadderInitStrategies() {
+        @Override
+        public int decideHeight() {
+            return 1;
+        }
+
+        @Override
+        public boolean isGenerable() {
+            return false;
+        }
+    };
+
     public static final LadderInitInfo LADDER_INIT_INFO_WITH_TRUE_STRATEGY =
-            LadderInitInfo.init(LadderSize.init(WIDTH, HEIGHT), TRUE_RETURN_STRATEGY);
+            LadderInitInfo.init(LadderSize.init(WIDTH, HEIGHT), TRUE_RETURN_INIT_STRATEGY);
+
 
     private Static() {}
 }

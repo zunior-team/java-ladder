@@ -1,7 +1,7 @@
 package ladder.domain.ladder;
 
 import ladder.domain.init.LadderInitInfo;
-import ladder.domain.ladder.footstep.FootStepCreateStrategy;
+import ladder.domain.ladder.strategy.footstep.FootStepCreateStrategy;
 import ladder.util.ObjectUtil;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class Step {
             return;
         }
 
-        Stream.generate(() -> createNextColumn(ladderInitInfo.getFootStepCreateStrategy()))
+        Stream.generate(() -> createNextColumn(ladderInitInfo.getLadderInitStrategies()))
                 .limit(ladderInitInfo.getLadderWidth() - 2) //add except first and last column
                 .forEach(columns::add);
     }
@@ -46,7 +46,7 @@ public class Step {
             return;
         }
 
-        columns.add(Column.init(ladderInitInfo.getFootStepCreateStrategy()));
+        columns.add(Column.init(ladderInitInfo.getLadderInitStrategies()));
     }
 
     private void validate(final LadderInitInfo ladderInitInfo) {

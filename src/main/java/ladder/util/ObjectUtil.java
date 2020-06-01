@@ -14,7 +14,7 @@ public class ObjectUtil {
     }
 
     public static <T> void checkNull(final T parameters, final String exceptionMsg) {
-        if(parameters == null) {
+        if (parameters == null) {
             throw new IllegalArgumentException(exceptionMsg);
         }
     }

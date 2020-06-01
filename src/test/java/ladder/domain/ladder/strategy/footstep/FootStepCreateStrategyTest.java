@@ -1,4 +1,4 @@
-package ladder.domain.ladder.footstep;
+package ladder.domain.ladder.strategy.footstep;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static ladder.util.Static.FALSE_RETURN_INIT_STRATEGY;
+import static ladder.util.Static.TRUE_RETURN_INIT_STRATEGY;
 import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("사다리 한 스텝(한 단) 테스트")
@@ -75,9 +77,9 @@ class StepTest {
 
     private static Stream<Arguments> takeALadder() {
         Step ladderWithEvenIdxHasFooStep =
-                Step.init(LadderInitInfo.init(LadderSize.init(5, 1), () -> true));
+                Step.init(LadderInitInfo.init(LadderSize.init(5, 1), TRUE_RETURN_INIT_STRATEGY));
         Step ladderWithoutFootStep =
-                Step.init(LadderInitInfo.init(LadderSize.init(5, 1), () -> false));
+                Step.init(LadderInitInfo.init(LadderSize.init(5, 1), FALSE_RETURN_INIT_STRATEGY));
 
         return Stream.of(
                 Arguments.of(ladderWithEvenIdxHasFooStep, 0, 1),

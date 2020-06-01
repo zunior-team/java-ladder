@@ -4,6 +4,9 @@ import ladder.domain.LadderGame;
 import ladder.domain.dto.MatchResultDto;
 import ladder.domain.init.LadderGameInitInfo;
 import ladder.domain.init.PlayerAndPrizeInitInfo;
+import ladder.domain.ladder.strategy.LadderInitStrategyWithLevel;
+import ladder.domain.ladder.strategy.LadderLevel;
+import ladder.domain.ladder.strategy.LadderInitStrategies;
 import ladder.view.console.ConsoleInput;
 import ladder.view.console.ConsoleOutput;
 
@@ -16,10 +19,11 @@ public class LadderApplication {
     public static void main(String[] args) {
         List<String> players = ConsoleInput.inputPlayers();
         List<String> prizes = ConsoleInput.inputPrizes();
-        int ladderHeight = ConsoleInput.inputHeight();
+        String complexity = ConsoleInput.inputComplexity();
 
         PlayerAndPrizeInitInfo playerAndPrizeInitInfo = PlayerAndPrizeInitInfo.init(players, prizes);
-        LadderGame ladderGame = LadderGame.init(LadderGameInitInfo.init(playerAndPrizeInitInfo, ladderHeight));
+        LadderInitStrategies ladderInitStrategies = LadderInitStrategyWithLevel.init(LadderLevel.of(complexity));
+        LadderGame ladderGame = LadderGame.init(LadderGameInitInfo.init(playerAndPrizeInitInfo, ladderInitStrategies));
 
         ConsoleOutput.showLadderInfo(ladderGame.getLadderInfo());
         MatchResultDto matchResult = ladderGame.play();

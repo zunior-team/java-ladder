@@ -1,6 +1,6 @@
 package ladder.domain.ladder;
 
-import ladder.domain.ladder.footstep.FootStepCreateStrategy;
+import ladder.domain.ladder.strategy.footstep.FootStepCreateStrategy;
 import ladder.util.ObjectUtil;
 
 import java.util.function.Function;
